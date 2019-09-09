@@ -1,0 +1,24 @@
+#测试结果
+#10^5
+mysql8.0(docker)   mysql5.7(local)     method
+   36814毫秒         18339毫秒          testBatchByStatement
+   38760毫秒         20236毫秒          testBatchByPrepareStatement
+   36131毫秒         15862毫秒          testBatch
+   5719毫秒          3978毫秒           testBatchByProcedure
+
+#10^6
+mysql8.0(docker)   mysql5.7(local)     method
+   389571毫秒       164249毫秒          testBatchByStatement
+   380121毫秒       178397毫秒          testBatchByPrepareStatement
+   388262毫秒       147395毫秒          testBatch
+   54425毫秒        38287毫秒           testBatchByProcedure
+
+#10^7
+aEXception: java.lang.OutOfMemoryError:GC overhead limit exceeded
+mysql8.0(docker)   mysql5.7(local)      method
+   3706276毫秒       1540583毫秒         testBatchByStatement
+   3796989毫秒       1797746毫秒         testBatchByPrepareStatement
+  aEXception        aEXception          testBatch
+  599734毫秒         375584毫秒          testBatchByProcedure
+
+#测试说明:docker内的mysql实例比本地的mysql实例批处理要慢

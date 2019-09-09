@@ -88,27 +88,30 @@ select pow3(3);
 truncate customer;
 drop procedure if exists batchInsert;
 DELIMITER $
-create procedure batchInsert(IN base_name varchar(20), inout count int)
+create procedure batchInsert(IN base_name varchar(20), in count int)
 begin
   declare startTime varchar(30);
   declare endTime varchar(30);
   declare curDate varchar(12);
+  declare n int default 1;
 
+  set autocommit=0;
   select date_format(now(), '%y-%m-%d') into curDate;
   select now() into startTime;
 
   repeat
     insert into customer
-    values (null, base_name, curDate);
+    values (null, concat(base_name,n), curDate);
     # values(null,base_name,count);
-    set count = count + 1;
-    until count > 100000
+    set n = n+ 1;
+    until n > count
   end repeat;
+  commit ;
   select now() into endTime;
   select startTime, endTime;
 end $
 DELIMITER ;
-select 1 into @count;
+select 10000000 into @count;
 call batchInsert('e', @count);
 
 #========================

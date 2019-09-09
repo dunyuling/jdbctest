@@ -19,12 +19,13 @@ import java.time.LocalDate;
  */
 public class BatchTest {
 
-    int count = 1000000;
+    int count = 5* (int)Math.pow(10,8);
 
     //mysql: 37620毫秒
     //postgresql:  25095毫秒
     @Test
     public void testBatchByStatement() {
+
         Connection connection = null;
         Statement statement = null;
         String sql = null;
@@ -138,17 +139,14 @@ public class BatchTest {
 
             long begin = System.currentTimeMillis();
 
-            callableStatement.setString(1, "lhg");
-            callableStatement.setInt(2, 1);
-
-            callableStatement.registerOutParameter(2, Types.VARCHAR);
+            callableStatement.setString(1, "xyz");
+            callableStatement.setInt(2, count);
 
             callableStatement.execute();
 
 
             long end = System.currentTimeMillis();
             System.out.println(count + "条数据用时: " + (end - begin) + "毫秒");
-            System.out.println("count: " + callableStatement.getInt(2));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -156,3 +154,4 @@ public class BatchTest {
         }
     }
 }
+
